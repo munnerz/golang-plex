@@ -61,8 +61,6 @@ func (u *User) loadAccountDetails() error {
 
 	req.URL.RawQuery = fmt.Sprintf("X-Plex-Token=%s", u.Token)
 
-	req.SetBasicAuth(u.Username, u.Password)
-
 	client := http.DefaultClient
 
 	resp, err := client.Do(req)
