@@ -2,6 +2,7 @@ package plex
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -41,6 +42,10 @@ func (u *User) authenticate() error {
 		return err
 	}
 
+	if resp.StatusCode != 200 {
+		return errors.New(http.StatusText(resp.StatusCode))
+	}
+
 	decoder := xml.NewDecoder(io.ReadCloser(resp.Body))
 
 	err = decoder.Decode(u)
@@ -67,6 +72,10 @@ func (u *User) loadAccountDetails() error {
 
 	if err != nil {
 		return err
+	}
+
+	if resp.StatusCode != 200 {
+		return errors.New(http.StatusText(resp.StatusCode))
 	}
 
 	decoder := xml.NewDecoder(io.ReadCloser(resp.Body))
